@@ -14,3 +14,4 @@ os_disk_name = "webvm1.osdisk1"
 username = "admin"
 password = "vgvhb7t3345678"
 storage_type = "Standard_LRS"
+
