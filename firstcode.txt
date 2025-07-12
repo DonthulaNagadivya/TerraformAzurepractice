@@ -1,8 +1,0 @@
-I am very excited to learn GIT and happy
-Divya
-I Am happy
-Take input from user
-add values 
-
-Submit data to the database
-able to push the code to remote
