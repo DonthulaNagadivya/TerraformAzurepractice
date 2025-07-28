@@ -1,0 +1,66 @@
+1. Can you explain what Terraform is and how you've used it in your Azure environment?
+Terraform is an open-source Infrastructure as Code (IaC) tool developed by HashiCorp that allows us to define,provision manage and version cloud infrastructure using a declarative configuration language called HCL (HashiCorp Configuration Language).
+It supports multiple providers includiung Azure, AWS, GCP and Onprem environmentsIn my current role as an Azure Administrator, I have used Terraform for:
+Provisioning Azure Virtual Machines
+Creating Virtual Networks, Subnets, and NSGs
+Automating Resource Group creation
+Managing Storage Accounts
+Terraform uses .tf files and state management to track infrastructure.It follows lifecycle: Init-->plan-->apply-->destroy
+I typically write .tf configuration files, use terraform plan to review the changes, and terraform apply to provision infrastructure. We use remote backend with Azure Storage Account to store the state file for team collaboration.
+
+2. What is a Terraform state file? Where do you store it, and why is it important in a team environment?
+The Terraform state file (terraform.tfstate) is a file that keeps track of the current state of the infrastructure that Terraform manages.
+It maps the real-world resources to the configurations defined in .tf files. This helps Terraform understand what it has created and what changes need to be made during the next apply.
+In a team environment, storing the state file locally is risky because:
+It can cause conflicts if multiple people run Terraform at the same time.
+There’s no locking, and the file may become corrupted.
+So, we use a remote backend, like an Azure Storage Account, which:
+Stores the state file securely and enables collaboration
+Supports state locking using blob , consistency and versioning(helps rollback)
+This ensures consistency and safe collaboration among the team.
+
+3. Can you explain how you configure a remote backend in Terraform for storing state in Azure?
+Yes. To configure a remote backend in Terraform using Azure Storage Account, we typically follow these steps:
+Create the backend resources via code:
+A Resource Group
+An Azure Storage Account
+A Storage Container (usually named tfstate)
+Add the backend block inside the main.tf or in a separate backend.tf file:
+terraform {
+  backend "azurerm" {
+    resource_group_name   = "my-rg"
+    storage_account_name  = "mytfstorageacct"
+    container_name        = "tfstate"
+    key                   = "terraform.tfstate"
+  }
+}
+Then I run:
+terraform init – to initialize and connect to the remote backend
+This stores the terraform.tfstate file in the Azure Blob Storage container. It also enables state locking and versioning and tfstate backup which are critical when working in a team environment.
+We also enable soft delete and versioning in the Azure Storage Account to ensure we can recover deleted or overwritten state files. This adds a layer of protection to our infrastructure-as-code workflow.
+
+4. What are Terraform modules, and how have you used them in your Azure projects?
+In Terraform, a module is a reusable collection of configuration files that can be used to standardize and simplify infrastructure deployment. I have created and used custom modules in my Azure projects to provision resources 
+like virtual machines, virtual networks, subnets, and storage accounts. By modularizing our code, we maintained consistency across environments and reduced duplication. For example, I developed a virtual machine module that 
+accepted parameters such as VM name, resource group, location, and admin credentials. This allowed us to reuse the same module across different environments like dev, test, and prod by simply passing different variable values.
+Using modules improved our deployment speed, ensured compliance with naming and tagging standards, and made the codebase easier to maintain and scale.
+
+5. What are Terraform variables, and how do you manage sensitive information like passwords or client secrets securely?
+Terraform variables allow us to parameterize and customize infrastructure deployments by passing values dynamically instead of hardcoding them. I commonly use variable blocks for inputs like location, resource names, or VM sizes. 
+For managing sensitive values such as admin passwords or client secrets, I use the sensitive = true flag in the variable declaration to prevent them from being displayed in logs or output. In addition, I store these values securely 
+using environment variables, Terraform Cloud workspaces, or Azure Key Vault integration with automation pipelines. We avoid hardcoding secrets in .tf files or even terraform.tfvars. In some cases, I use CI/CD pipelines like Azure DevOps
+to inject secrets from Key Vault at runtime, ensuring secure handling of credentials during infrastructure provisioning.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
