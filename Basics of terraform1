@@ -27,9 +27,6 @@ The provider uses API calls behind the scenes to create, read, update, or delete
 
 Example:
 
-hcl
-Copy
-Edit
 provider "azurerm" {
   features {}
 }
@@ -116,10 +113,6 @@ Backup & Recovery: Remote backends offer durability and versioning.
 
 Example in Azure:
 Use an Azure Storage Account with a Blob container to store the remote state:
-
-hcl
-Copy
-Edit
 backend "azurerm" {
   storage_account_name = "tfstateaccount"
   container_name       = "tfstate"
@@ -148,9 +141,6 @@ Terraform offers multiple ways to manage secrets securely:
 Mark variables as sensitive
 Use the sensitive = true attribute in variable blocks to hide values in CLI output.
 
-hcl
-Copy
-Edit
 variable "client_secret" {
   type      = string
   sensitive = true
@@ -193,9 +183,6 @@ Implicit Dependencies:
 These are automatically managed by Terraform when one resource references attributes from another.
 Example:
 
-hcl
-Copy
-Edit
 resource "azurerm_virtual_network" "vnet" {
   name                = "my-vnet"
   location            = azurerm_resource_group.rg.location
@@ -207,9 +194,6 @@ Explicit Dependencies:
 Use the depends_on argument to manually specify dependencies, especially useful for resources that don’t have direct attribute references.
 Example:
 
-hcl
-Copy
-Edit
 resource "null_resource" "example" {
   depends_on = [azurerm_virtual_network.vnet]
 }
@@ -249,28 +233,18 @@ The lifecycle block in Terraform is used inside resource blocks to control how T
 🔹 Common lifecycle arguments:
 create_before_destroy
 Ensures a new resource is created before the old one is destroyed. Useful for avoiding downtime.
-
-hcl
-Copy
-Edit
 lifecycle {
   create_before_destroy = true
 }
 prevent_destroy
 Prevents accidental deletion of critical resources.
 
-hcl
-Copy
-Edit
 lifecycle {
   prevent_destroy = true
 }
 ignore_changes
 Tells Terraform to ignore changes to specific attributes, preventing unnecessary updates.
 
-hcl
-Copy
-Edit
 lifecycle {
   ignore_changes = [tags, metadata]
 }
@@ -310,16 +284,10 @@ This allows you to reuse the same code across environments without resource conf
 Useful for managing isolated deployments of the same infrastructure in different stages.
 
 🔹 Example:
-bash
-Copy
-Edit
 terraform workspace new dev
 terraform workspace new prod
 Then apply changes in the selected workspace:
 
-bash
-Copy
-Edit
 terraform workspace select dev
 terraform apply
 ✅ Summary:
@@ -333,9 +301,6 @@ data blocks (data sources) are used to read information from existing infrastruc
 🔹 Example:
 Resource Example:
 
-hcl
-Copy
-Edit
 resource "azurerm_virtual_network" "vnet" {
   name                = "my-vnet"
   location            = azurerm_resource_group.rg.location
@@ -344,9 +309,6 @@ resource "azurerm_virtual_network" "vnet" {
 }
 Data Source Example:
 
-hcl
-Copy
-Edit
 data "azurerm_resource_group" "existing_rg" {
   name = "existing-rg"
 }
@@ -363,27 +325,19 @@ When resources were created manually (e.g., via Azure Portal, AWS Console).
 When you're onboarding existing infrastructure into Terraform.
 
 🔹 Syntax:
-bash
-Copy
-Edit
+
 terraform import <resource_type>.<resource_name> <resource_id>
 🔹 Example (Azure):
 Suppose you have a resource group in Azure named my-rg in subscription ID xxxx.
 
 Define the resource in code:
 
-hcl
-Copy
-Edit
 resource "azurerm_resource_group" "example" {
   name     = "my-rg"
   location = "eastus"
 }
 Run the import command:
 
-bash
-Copy
-Edit
 terraform import azurerm_resource_group.example /subscriptions/xxxx/resourceGroups/my-rg
 🔹 Important Notes:
 Importing brings the resource into the state file, not the .tf code.
@@ -436,32 +390,6 @@ Used to view or manage the state file, e.g., list resources, move or remove stat
 Update the version in the required_providers block
 
 Run terraform init -upgrade to apply changes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 “I’ve gained hands-on experience using Terraform to provision and manage Azure infrastructure in a lab environment. I’ve written declarative configurations in HCL to deploy virtual networks, subnets, NSGs, and VMs, and I’ve worked with state files to track infrastructure changes. I also practiced using remote backends for better state management and experimented with reusable modules.”
