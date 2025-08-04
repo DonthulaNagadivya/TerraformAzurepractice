@@ -1,0 +1,26 @@
+***How do craete a resources in multiple locations or regions
+***how do we craete a resources multiple cloud platforms(providers)
+variable "key"{type=string}
+Output"first_string_output"{
+value=var.key
+}
+terraform apply -var "key=divya or rg1"
+we can pass multiple variables while applying terraform apply -var "key=divya" -var "size=10"-  During the runtime we can dynamically pass the values to the variables
+Sometimes we dont want git to track certain files then we use the git.ignore
+https://www.toptal.com/developers/gitignore/api/terraform
+
+
+When we run the terraform init. it will initialize the terraform and create a .terraform and terraform.lock.HCL
+Terraform plan only presents the plan of making  changes 
+Once after you run terraform apply it will craete a terraform.tfstate file
+If the state has been achieved terraform wont run again to create the infrastructure. I.e If we runTerraform apply multiple times, The infrastructureshould remain the same thats idempotent behaviour
+ls, cat and mv terraform.tfstate* ~- moving the file to home directory
+Terraform init, plan, apply destroy, show
+Drift in Terraform occurs when infrastructure is changed outside of Terraform, causing a mismatch between the actual state and the Terraform state file.
+Idempotent means running terraform apply multiple times will not make unnecessary changes if the infrastructure already matches the code.
+terraform apply -target=resource_type.resource_name of the resouce block to craete or update or targeting to specific resource then we will use this same we can use to destroy target resource.
+
+
+git restore filename- undo the changes in working phase
+git restore --staged filename- undo the changes from staging
+git revert <commit_hash> to undo the commited changes
