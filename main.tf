@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Resource group
 resource "azurerm_resource_group" "food_rg" {
   name     = var.rg_name
@@ -86,3 +87,24 @@ resource "azurerm_subnet_network_security_group_association" "food_db_subnet_nsg
   network_security_group_id = azurerm_network_security_group.food_db_nsg.id
 }
 
+=======
+module "virtual_machine" {
+source = "C:/Users/Public/Documents/TerraformAzurepractice/Module"
+RGname = "RG1"
+location = "East US"
+vnetname = "vnet1"
+subnetname = "frontendsubnet"
+nicname = "webvm1_nic"
+ipconfig_name = "internal"
+ip_allocation = "Dynamic"
+vmname = "webvm1"
+vm_size = "Standard_B1s"
+vm_publisher = "MicrosoftWindowsServer"
+vm_offer = "WindowsServer"
+sku = "2016-Datacenter"
+os_disk_name = "webvm1.osdisk1"
+username = "Dontula"
+password = "Div12456789jhgfd"
+storage_type = "Standard_LRS"
+}
+>>>>>>> e1146c0dda5a044eabc5249d0642b271b951124e
