@@ -1,0 +1,28 @@
+I have created a local repo (didin't clone the remote repo). Once i tested my terraform code. I would like to push the code to existing repo. I found some errors
+Error: Updates were rejected because the tip of your current branch is behind its remote counterpart
+Cause: Remote branch has commits missing in your local branch.
+Workaround:
+Run git pull origin main (replace main with your branch).
+Add and commit resolved files.
+Push again with git push origin main.
+Note: Avoid using git push -f unless absolutely necessary.
+
+2. Error: refusing to merge unrelated histories
+Cause: Local and remote repositories have no common commit history (e.g., independently initialized).
+Workaround:
+**** Use git pull origin main --allow-unrelated-histories to merge histories.
+Resolve any merge conflicts.
+Add and commit the merge (git add . and git commit -m "Merge unrelated histories").
+Push changes with git push origin main.
+Note: Use this option only when intentionally merging separate histories.
+
+General Git Push to Existing Remote Repository Steps
+Ensure remote is set with git remote -v (add if missing).
+git remote add origin  https://github.com/DonthulaNagadivya/TerraformAzurepractice.git
+Pull latest changes to sync: git pull origin main.
+Stage (git add .) and commit changes locally.
+Push changes with git push origin main.
+
+***terraform import azurerm_resource_group.rg /subscriptions/4c4a9b0e-3bf8-4ea2-a4d2-2fa272a13539/resourceGroups/RG1
+Before running this command we have to define the resource block for the required resource then run the improt command to take the resource to the terraform management.
+
